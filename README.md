@@ -4,23 +4,25 @@ Users and Albums
 
 Please visit https://react-coding-test.vercel.app/ to view, and review the code in the ```Album``` and ```UserAlbums``` components.
 
-I chose to use React for convenience, and because I decided to deploy my app using Vercel. I used ```npx create-react-app``` and then added two new components - ```UserAlbums.js``` and ```Album.js```. ```UserAlbums``` is where most of my work is.
+I chose to use React instead of React Native for convenience -- and because I decided to deploy my app using Vercel. I used ```npx create-react-app``` and then added two new components - ```UserAlbums.js``` and ```Album.js```. ```UserAlbums``` is where most of my work is.
+
+Initially, I had every single album in a list, with the ```<li>``` element displaying the title and relevant user's name. However, I decided it would be better to group the albums by user, and then display that way instead of individually. Hopefully, this still satisfies the ask to 'Shows a list of album titles returned by jsonplaceholder.typicode.com/albums with the name of the user the album belongs to.' condition. 
 
 ### Fetching Data
 I used ```Promise.all``` (map on the array of URLs), and ```async/await``` to fetch. 
 
-The data is loaded in the ```useEffect``` hook so we can get it before the component is rendered. I also made use of useCallback, so I could use the dependency array. Additionally, I used useState to store the ```<li>``` elements that I created in the ```getUserAlbumElements``` function. I did this to avoid iterating through users an additional time. 
+The data is loaded in the ```useEffect``` hook so we can get it before the component is rendered. Additionally, I used ```useState``` to store the ```<li>``` elements that I created in the ```getUserAlbumElements``` function. I did this to avoid iterating through users an additional time. 
 
-Once the data was loaded, I noticed there were a lot of additional values (particularly in the user obj) that we didn't need. Because the prompt mentioned "Only information that will be presented should be loaded.", I tried to clean up the data immediately. I did this by creating two helper functions to pull all of the albums for a giver userid, and all of the photo urls for a given album. Then I combined this data and passed it into a child component to render.
+Once the data was loaded, I noticed there were a lot of additional values (particularly in the user obj) that we didn't need. Because the prompt mentioned "Only information that will be presented should be loaded.", I tried to clean up the data immediately, and not display or pass down any irrelevant data. I did this by extracting the only data needed from ```user```, and creating two helper functions to pull all of the albums for a giver userid, and all of the photo urls for a given album. Then I combined this data and passed it into a child component to render.
 
 In my opinion, this pattern is not ideal - there are multiple and nested iterations which could get dangerous as the application scales. Unfortunately, I think it's necessary with the way the data is currently organized. To improve this, I'm wondering if the photo urls could be directly saved to the album object. As it is now, the photo obj and album obj have overlap (albumId, title). Additionally, if we could create an indexed query for retrieving all the albums associated with a given user, that would improve performance. 
 
 I decided to display the list of albums in a grid, with the user's name as the 'title' of the grid. I wasn't sure if the user in this case was the composer, or simply these albums were favorited by the user. Without the context, I decided it would be best to display the user's name and then group the albums below. 
 
 ### Displaying the Images
-I decided to use a toggle, so that clicking the title will display/hide the thumbnail accordingly. I used onClick to update the state of the thumbnail. Then, depending on the state I used a ternary operator to set the 'display' value.
+I decided to utilize ```useState``` so the title will toggle the thumbnail accordingly, when clicked. I used ```onClick``` to update the state of the thumbnail. Then, depending on the state I used a ternary operator to set the 'display' value.
 
-For showing the full-size image, I made the decision to open the image in a new tab. However, I wasn't sure I was supposed to re-render the image when the state is updated during onClick instead. So I did it both ways (but kept the new page experience in my final code, becaues it felt cleaner to me). I included a video of the experience if the element was re-rendered with the new url, and the code below: 
+For showing the full-size image, I made the decision to open the image in a new tab. However, I wasn't sure if I should re-render the image when the state is updated during onClick instead. So I did it both ways (but kept the new page experience in my final code, becaues it felt cleaner to me). I included a video of the experience if the element was re-rendered with the new url, and the code below: 
 
 ```
 const Album = (props) => {
@@ -45,10 +47,10 @@ https://user-images.githubusercontent.com/18056847/216854439-f9661e7d-4d6a-450f-
 
 
 ### Styling 
-For styling, I used CSS Grid for extremely simple styling. I wanted things to look clean, but I didn't want to spend too much time on it. It's not the best design, but I'm hopeful that it's adequate enough for now.
+For styling, I used CSS Grid for extremely simple styling. I wanted things to look clean, but I didn't want to spend too much time on it. It's not the best design (there are many things I would change) but I'm hopeful that it's adequate enough for now.
 
 ### Next Steps
-If I had more time, I would have spent more time on the grid itself, improving the UI, making things responsive, improve the spacing / displaying of the album covers, improve a11y, and fix the issues with data / scale that I mentioned above. 
+If I had more time, I would have spent more time on the grid itself, improving the UI, making things responsive, improve the spacing / displaying of the album covers (so that there are not inconsistencies based on the length of the album title), improve a11y, and fix the issues with data / scale that I mentioned above. 
 
 ### Create React App README
 
