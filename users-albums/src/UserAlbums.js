@@ -1,57 +1,91 @@
-import {useEffect, useState} from 'react';
-import UserAlbum from './UserAlbum';
 import './App.css';
+import Album from './Album';
+import {useEffect, useState, useCallback} from 'react';
 
 
-const UserAlbums = (props) => {
-  const {user, photos, albums} = props;
-  const [userAlbums, setUserAlbums] = useState([]);
+const UserAlbums = () => {
+    const [userAlbumElements, setUsersAlbumsAndThumbnailsElements] = useState();
 
-  const getAlbumsByUserId = () => {
-    const userAlbums = [];
-    albums.forEach(album => {
-      if (album.userId === user.id) {
-        userAlbums.push(album);
-      }
-    });
-    console.log('user albums', userAlbums)
-    setUserAlbums(userAlbums)
-  }
+    const getAlbumsFromUserId = (userId, albums) => {
+      const userAlbums = [];
+      albums.forEach(album => {
+        if (album.userId === userId) {
+          userAlbums.push(album);
+        }
+      });
+      return userAlbums;
+    }
+  
+    const getPhotoUrlsFromAlbumId = (albumId, photos) => {
+      let url;
+      let thumbnailUrl;
+      photos.forEach(photo => {
+        if (albumId === photo.albumId) {
+          url = photo.url;
+          thumbnailUrl = photo.thumbnailUrl;
+        }
+      });
+      return {url, thumbnailUrl};
+    }
 
-  const getPhotoThumbnailUrlFromAlbumId = (albumId) => {
-    let photoThumbnailUrl;
-    photos.forEach(photo => {
-      if (albumId === photo.albumId) {
-        photoThumbnailUrl = photo.thumbnailUrl;
-      }
-    });
-    return photoThumbnailUrl;
-  }
+    const getData = useCallback(async () => {
+        const urls = [
+        'https://jsonplaceholder.typicode.com/albums',
+        'https://jsonplaceholder.typicode.com/users',
+        'https://jsonplaceholder.typicode.com/photos'
+        ];
 
-  const getPhotoUrlFromAlbumId = (albumId) => {
-    let photoUrl;
-    photos.forEach(photo => {
-      if (albumId === photo.albumId) {
-        photoUrl = photo.url;
-      }
-    });
-    return photoUrl;
-  }
+        const data = await Promise.all(urls.map(async url => {
+        const resp = await fetch(url);
+          return resp.json();
+        }));
+        const [albums, users, photos] = data;
 
-  useEffect(() => {
-    getAlbumsByUserId();
-  }, [])
+        const userAlbumElements = users.map(user => {
+          let photoUrls;
+          const userAlbums = getAlbumsFromUserId(user.id, albums);
+          const userAlbumsAndThumbnails = userAlbums.map(album => {
+            photoUrls = getPhotoUrlsFromAlbumId(album.id, photos)
+
+            return {
+              'id': album.id,
+              'title': album.title,
+              'thumbnailUrl': photoUrls.thumbnailUrl,
+              'url': photoUrls.url
+            };
+          });
+
+          return (
+            <li className='albumRow' key={user.id}>
+              <p className='userName'>{user.name}</p>
+              <div className='userAlbums'>
+                {userAlbumsAndThumbnails ? userAlbumsAndThumbnails.map((userAlbum, index) => 
+                  <Album key={userAlbum.id}
+                    number={index + 1}
+                    title={userAlbum.title}
+                    thumbnailUrl={userAlbum.thumbnailUrl}
+                    photoUrl={userAlbum.url}
+                  />
+                ) : null} 
+              </div>
+            </li>
+          );
+        });
+
+        setUsersAlbumsAndThumbnailsElements(userAlbumElements);
+    }, [])
+
+    useEffect(() => {
+      getData();
+    }, [getData])
 
   return (
-      <div className='userAlbums'>
-        {userAlbums ? userAlbums.map(userAlbum => 
-          <UserAlbum key={userAlbum.id}
-            title={userAlbum.title}
-            thumbnailUrl={getPhotoThumbnailUrlFromAlbumId(userAlbum.id)}
-            photoUrl={getPhotoUrlFromAlbumId(userAlbum.id)}
-           />
-        ) : null} 
-    </div>);
+    <div>
+      <ul>
+        {userAlbumElements}
+      </ul>
+    </div>
+  );
 }
 
 export default UserAlbums;
