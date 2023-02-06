@@ -19,12 +19,9 @@ In my opinon, this pattern is not ideal - there are multiple and nested iteratio
 I decided to display the list of albums in a grid, with the user's name as the 'title' of the grid. I wasn't sure if the user in this case was the composer, or simply these albums were favorited or suggested by the user. Without that context, I diecided it would be best to display the user's name and then group the albums below.
 
 ### Displaying the Images
-I decided to use a toggle, so that clicking the title will display/hide accordingly. I used onClick to update the state of the thumbnail. Then, depending on the state I used a ternerary operator to set the 'display' value to 'none' or 'flex'.
+I decided to use a toggle, so that clicking the title will display/hide the thumbnail accordingly. I used onClick to update the state of the thumbnail. Then, depending on the state I used a ternerary operator to set the 'display' value.
 
-For this step, I made the decision to open the full sized image in a new tab. However, I wasn't sure if you included this to demonstrate using state to rerender an image when the state is updated during onClick. So I did it both ways (but kept the new page experience in my final code). I included the code and a screen video of that experience and the code, so you can take a look if that is the preferred experience: 
-
-https://user-images.githubusercontent.com/18056847/216854439-f9661e7d-4d6a-450f-8102-32a0db3bb15c.mov
-
+For showing the fullsize image, I made the decision to open the image in a new tab. However, I wasn't if you wanted me to rerender the image when the state is updated during onClick. So I did it both ways (but kept the new page experience in my final code). I included a video of the experience if the element was rerendered with the new url, and the code below: 
 
 ```
 const Album = (props) => {
@@ -44,6 +41,9 @@ const Album = (props) => {
 
 export default Album;
 ```
+
+https://user-images.githubusercontent.com/18056847/216854439-f9661e7d-4d6a-450f-8102-32a0db3bb15c.mov
+
 
 ### Styling 
 For styling, I used CSS Grid and just extremely simple styling. I wanted things to look clean and orginized, but I didn't want to spend too much time on it. It's not the best design, but I'm hopeful that it's adequate enough for now.
