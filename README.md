@@ -1,7 +1,7 @@
 Users and Albums
 
 ### My Approach 
-I chose to use React for convience, and because I decided to deploy my app using Vercel. I used npx create-react-app and then added two new components - UserAlbums.js and Album.js. UserAlbums is where the fetching of the json occurs, the cleaning and then passing it down via props to Album to render. 
+I chose to use React for convience, and because I decided to deploy my app using Vercel. I used ```npx create-react-app``` and then added two new components - ```UserAlbums.js``` and ```Album.js```. ```UserAlbums``` is where the fetching of the json occurs, the cleaning and then passing it down via props to Album to render. 
 
 ### Fetching Data
 I used ```Promise.all``` (map on the array of URLs), and ```async/await``` to fetch the JSON. 
