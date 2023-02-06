@@ -12,7 +12,7 @@ const UserAlbums = (props) => {
       <div className='album' role='button' onClick={() => setShowAlbum(!shouldShowAlbum)}>
         {capsTitle}
       </div>
-      <div style={{'display': shouldShowAlbum ? 'grid' : 'none'}}>
+      <div style={{'display': shouldShowAlbum ? 'grid' : 'none', 'justify-content': 'center'}}>
         <a href={photoUrl} target='_blank'>
           <img src={thumbnailUrl}></img>
         </a>
