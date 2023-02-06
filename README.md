@@ -47,7 +47,7 @@ https://user-images.githubusercontent.com/18056847/216854439-f9661e7d-4d6a-450f-
 
 
 ### Styling 
-For styling, I used CSS Grid for extremely simple styling. I wanted things to look clean, but I didn't want to spend too much time on it. It's not the best design (there are many things I would change) but I'm hopeful that it's adequate enough for now.
+For styling, I used CSS Grid for extremely simple styling. I wanted things to look clean, but I couldn't spend too much time on it, unfortunately.
 
 ### Next Steps
 If I had more time, I would have spent more time on the grid itself, improving the UI, making things responsive, improve the spacing / displaying of the album covers (so that there are not inconsistencies based on the length of the album title), improve a11y, and fix the issues with data / scale that I mentioned above. 
